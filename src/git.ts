@@ -21,7 +21,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
 
-    async function configureGit(throwOnError: boolean) {
+    async function configure(throwOnError: boolean) {
       try {
         await execute(
           `git config --global --add safe.directory "${action.workspace}"`,
@@ -47,6 +47,9 @@ export async function init(action: ActionInterface): Promise<void | Error> {
           action.silent
         )
       } catch {
+        info(
+          'There was a problemissue initilizing git, attempting to resolve …'
+        )
         if (throwOnError) {
           throw new Error()
         }
@@ -54,7 +57,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     }
 
     try {
-      await configureGit(false)
+      await configure(false)
     } catch {
       // Attempt to re-run if initial configuration failed using git init.
       await execute(`git init`, action.workspace, action.silent)
@@ -65,7 +68,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
         action.silent
       )
       
-      await configureGit(true)
+      await configure(true)
     }
 
     try {
