@@ -24,12 +24,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     await execute(`git init`, action.workspace, action.silent)
 
     await execute(
-      `git commit -m "Initial commit" --allow-empty`,
-      action.workspace,
-      action.silent
-    )
-
-    await execute(
       `git config --global --add safe.directory "${action.workspace}"`,
       action.workspace,
       action.silent
