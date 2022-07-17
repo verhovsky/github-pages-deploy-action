@@ -310,6 +310,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
         // If the push failed for any reason other than being rejected,
         // there is a problem
+        console.log('THE LOG---', pushResult.stderr)
         if (!rejected && pushResult.stderr) throw new Error(pushResult.stderr)
       } while (rejected)
     }
